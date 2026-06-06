@@ -1,15 +1,14 @@
 import {
   Box,
   Button,
+  HStack,
   Text,
   VStack,
-  HStack,
 } from "@chakra-ui/react";
 
 import { useTodoStore } from "../store/todoStore";
 
 function TodoList() {
-
   const {
     todos,
     deleteTodo,
@@ -21,17 +20,44 @@ function TodoList() {
     title: string,
     description: string
   ) => {
-
-    const newTitle =
-      prompt("Edit Task", title);
+    const newTitle = prompt(
+      "Edit Task Name",
+      title
+    );
 
     if (!newTitle) return;
 
-    const newDescription =
-      prompt(
-        "Edit Description",
-        description
+    // Validation
+    if (!/^[A-Za-z\s]+$/.test(newTitle)) {
+      alert(
+        "Only alphabets and spaces are allowed"
       );
+      return;
+    }
+
+    if (newTitle.length > 10) {
+      alert(
+        "Task name cannot exceed 10 characters"
+      );
+      return;
+    }
+
+    const duplicate = todos.find(
+      (todo) =>
+        todo.id !== id &&
+        todo.title.toLowerCase() ===
+          newTitle.toLowerCase()
+    );
+
+    if (duplicate) {
+      alert("Duplicate task not allowed");
+      return;
+    }
+
+    const newDescription = prompt(
+      "Edit Description",
+      description
+    );
 
     editTodo(
       id,
@@ -43,15 +69,18 @@ function TodoList() {
   return (
     <Box
       bg="white"
-      p={6}
-      borderRadius="12px"
+      p={{ base: 4, md: 6 }}
+      borderRadius="16px"
       border="1px solid"
       borderColor="gray.200"
+      boxShadow="sm"
+      w="100%"
       minH="500px"
     >
       <Text
-        fontSize="26px"
+        fontSize={{ base: "24px", md: "28px" }}
         fontWeight="700"
+        color="#1F2937"
         mb={6}
       >
         Your Tasks
@@ -70,22 +99,33 @@ function TodoList() {
             <Box
               key={todo.id}
               p={4}
-              borderRadius="10px"
+              borderRadius="12px"
               border="1px solid"
               borderColor="gray.200"
+              bg="gray.50"
             >
               <Text
-                fontWeight="700"
                 fontSize="18px"
+                fontWeight="700"
+                color="#111827"
               >
                 {todo.title}
               </Text>
 
-              <Text mt={2}>
-                {todo.description}
+              <Text
+                mt={2}
+                color="gray.600"
+                fontSize="15px"
+              >
+                {todo.description ||
+                  "No description"}
               </Text>
 
-              <HStack mt={4}>
+              <HStack
+                mt={4}
+                spacing={3}
+                flexWrap="wrap"
+              >
                 <Button
                   size="sm"
                   colorScheme="blue"
@@ -104,9 +144,7 @@ function TodoList() {
                   size="sm"
                   colorScheme="red"
                   onClick={() =>
-                    deleteTodo(
-                      todo.id
-                    )
+                    deleteTodo(todo.id)
                   }
                 >
                   Delete
