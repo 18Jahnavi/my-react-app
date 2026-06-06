@@ -9,7 +9,9 @@ interface TodoState {
     description: string
   ) => void;
 
-  deleteTodo: (id: number) => void;
+  deleteTodo: (
+    id: number
+  ) => void;
 
   editTodo: (
     id: number,
@@ -20,9 +22,13 @@ interface TodoState {
 
 export const useTodoStore =
   create<TodoState>((set) => ({
+
     todos: [],
 
-    addTodo: (title, description) =>
+    addTodo: (
+      title,
+      description
+    ) =>
       set((state) => ({
         todos: [
           ...state.todos,
@@ -47,14 +53,15 @@ export const useTodoStore =
       description
     ) =>
       set((state) => ({
-        todos: state.todos.map((todo) =>
-          todo.id === id
-            ? {
-                ...todo,
-                title,
-                description,
-              }
-            : todo
+        todos: state.todos.map(
+          (todo) =>
+            todo.id === id
+              ? {
+                  ...todo,
+                  title,
+                  description,
+                }
+              : todo
         ),
       })),
   }));

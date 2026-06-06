@@ -18,23 +18,21 @@ function TodoForm() {
     (state) => state.todos
   );
 
-  const [title, setTitle] =
-    useState("");
-
+  const [title, setTitle] = useState("");
   const [description, setDescription] =
     useState("");
-
-  const [error, setError] =
-    useState("");
+  const [error, setError] = useState("");
 
   const handleAdd = () => {
     setError("");
 
+    // Required validation
     if (!title.trim()) {
       setError("Task name is required");
       return;
     }
 
+    // Only alphabets and spaces
     if (!/^[A-Za-z\s]+$/.test(title)) {
       setError(
         "Only alphabets and spaces are allowed"
@@ -42,6 +40,7 @@ function TodoForm() {
       return;
     }
 
+    // Maximum 10 characters
     if (title.length > 10) {
       setError(
         "Task name cannot exceed 10 characters"
@@ -49,6 +48,7 @@ function TodoForm() {
       return;
     }
 
+    // Duplicate validation
     const duplicate = todos.find(
       (todo) =>
         todo.title.toLowerCase() ===
@@ -56,9 +56,7 @@ function TodoForm() {
     );
 
     if (duplicate) {
-      setError(
-        "Duplicate task not allowed"
-      );
+      setError("Duplicate task not allowed");
       return;
     }
 
@@ -71,14 +69,17 @@ function TodoForm() {
   return (
     <Box
       bg="white"
-      p={6}
-      borderRadius="12px"
+      p={{ base: 4, md: 6 }}
+      borderRadius="16px"
       border="1px solid"
       borderColor="gray.200"
+      boxShadow="sm"
+      w="100%"
     >
       <Text
-        fontSize="26px"
+        fontSize={{ base: "24px", md: "28px" }}
         fontWeight="700"
+        color="#1F2937"
         mb={6}
       >
         Add New Task
@@ -86,56 +87,65 @@ function TodoForm() {
 
       <Text
         fontWeight="600"
+        color="#374151"
         mb={2}
       >
         Task Name
       </Text>
 
       <Input
-        placeholder="Enter task"
+        placeholder="Enter task name"
         value={title}
         onChange={(e) =>
           setTitle(e.target.value)
         }
+        size="lg"
+        borderRadius="10px"
       />
 
       <Text
-        mt={2}
+        fontSize="13px"
         color="gray.500"
+        mt={2}
+        mb={4}
       >
         {title.length} / 10
       </Text>
 
       <Text
-        mt={5}
-        mb={2}
         fontWeight="600"
+        color="#374151"
+        mb={2}
       >
         Description
       </Text>
 
       <Textarea
-        placeholder="Enter description"
+        placeholder="Enter task description"
         value={description}
         onChange={(e) =>
-          setDescription(
-            e.target.value
-          )
+          setDescription(e.target.value)
         }
+        size="lg"
+        borderRadius="10px"
+        resize="vertical"
       />
 
       {error && (
         <Text
           color="red.500"
           mt={3}
+          fontSize="14px"
         >
           {error}
         </Text>
       )}
 
       <Button
-        mt={5}
+        mt={6}
         colorScheme="green"
+        size="lg"
+        w="100%"
         onClick={handleAdd}
       >
         Add Task
