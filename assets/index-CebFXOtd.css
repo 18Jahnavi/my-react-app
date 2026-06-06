@@ -1,0 +1,1 @@
+*{margin:0;padding:0;box-sizing:border-box}html,body,#root{width:100%;min-height:100vh}body{font-family:Inter,Arial,Helvetica,sans-serif;background-color:#f5f7fa;color:#1f2937;line-height:1.5}button,input,textarea{font-family:inherit}@media screen and (max-width:768px){body{padding:0}}@media screen and (max-width:480px){body{font-size:14px}}
