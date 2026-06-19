@@ -15,6 +15,7 @@ function App() {
       <Heading
         textAlign="center"
         fontSize={{ base: "30px", md: "38px", lg: "42px" }}
+        fontFamily={"Helonik Regular"}
         fontWeight="700"
         color="#1F2937"
         mb={10}
